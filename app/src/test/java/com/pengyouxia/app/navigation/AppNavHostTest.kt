@@ -1,12 +1,11 @@
 package com.pengyouxia.app.navigation
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isHeading
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.pengyouxia.core.designsystem.theme.PyxTheme
+import com.pengyouxia.app.MainActivity
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -14,21 +13,16 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-/** 三个一级 tab 的默认页与切换行为。 */
+/** 三个一级 tab 的默认页与切换行为（真实 Hilt，沙盒内为空库）。 */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class AppNavHostTest {
 
     @get:Rule
-    val compose = createAndroidComposeRule<ComponentActivity>()
-
-    private fun setContent() {
-        compose.setContent { PyxTheme(dark = false) { AppNavHost() } }
-    }
+    val compose = createAndroidComposeRule<MainActivity>()
 
     @Test
     fun `默认停在朋友页`() {
-        setContent()
         compose.waitForIdle()
         assertTrue(
             compose.onAllNodes(hasText("朋友") and isHeading()).fetchSemanticsNodes().isNotEmpty()
@@ -38,7 +32,7 @@ class AppNavHostTest {
 
     @Test
     fun `点底栏人情切到人情页`() {
-        setContent()
+        compose.waitForIdle()
         // 底栏 item 文字不是 heading，用它区分页头标题
         compose.onNode(hasText("人情") and !isHeading()).performClick()
         compose.waitForIdle()
@@ -50,7 +44,7 @@ class AppNavHostTest {
 
     @Test
     fun `点底栏我的切到我的页`() {
-        setContent()
+        compose.waitForIdle()
         compose.onNode(hasText("我的") and !isHeading()).performClick()
         compose.waitForIdle()
         assertTrue(
