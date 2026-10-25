@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
+import com.pengyouxia.app.navigation.AppNavHost
+import com.pengyouxia.core.designsystem.theme.PyxTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-/** 主入口 Activity。占位界面，后续批次换成 PyxTheme + AppNavHost。 */
+/** 主入口 Activity：唯一的一级导航容器。 */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Text("朋友侠")
+            PyxTheme { AppNavHost() }
         }
     }
 }
