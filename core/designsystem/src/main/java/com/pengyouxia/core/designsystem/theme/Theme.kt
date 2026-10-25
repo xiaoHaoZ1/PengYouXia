@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /** 浅色方案。供 [PyxTheme] 与对比度测试读取。 */
-val LightColors = lightColorScheme(
+val PyxLightColorScheme = lightColorScheme(
     primary = PyxPrimaryLight,
     onPrimary = Color.White,
     primaryContainer = PyxPrimaryContainerLight,
@@ -48,7 +48,7 @@ val LightColors = lightColorScheme(
 )
 
 /** 深色方案。供 [PyxTheme] 与对比度测试读取。 */
-val DarkColors = darkColorScheme(
+val PyxDarkColorScheme = darkColorScheme(
     primary = PyxPrimaryDark,
     onPrimary = PyxOnPrimaryDark,
     primaryContainer = PyxPrimaryContainerDark,
@@ -143,7 +143,7 @@ fun PyxTheme(
 ) {
     CompositionLocalProvider(LocalPyxColors provides if (dark) DarkPyxColors else LightPyxColors) {
         MaterialTheme(
-            colorScheme = if (dark) DarkColors else LightColors,
+            colorScheme = if (dark) PyxDarkColorScheme else PyxLightColorScheme,
             typography = AppTypography,
             shapes = AppShapes,
             content = content

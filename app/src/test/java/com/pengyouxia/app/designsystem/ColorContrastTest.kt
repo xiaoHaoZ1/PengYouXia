@@ -2,9 +2,9 @@ package com.pengyouxia.app.designsystem
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
-import com.pengyouxia.core.designsystem.theme.DarkColors
+import com.pengyouxia.core.designsystem.theme.PyxDarkColorScheme
 import com.pengyouxia.core.designsystem.theme.DarkPyxColors
-import com.pengyouxia.core.designsystem.theme.LightColors
+import com.pengyouxia.core.designsystem.theme.PyxLightColorScheme
 import com.pengyouxia.core.designsystem.theme.LightPyxColors
 import com.pengyouxia.core.designsystem.theme.PyxColors
 import java.util.Locale
@@ -15,7 +15,7 @@ import org.junit.Test
 
 /**
  * WCAG 2.x 对比度回归：所有「文字/底色」组合必须 ≥4.5。
- * 色值取 [LightColors]/[DarkColors] 与 [LightPyxColors]/[DarkPyxColors]，
+ * 色值取 [PyxLightColorScheme]/[PyxDarkColorScheme] 与 [LightPyxColors]/[DarkPyxColors]，
  * 与运行时主题同一份定义。
  */
 class ColorContrastTest {
@@ -64,8 +64,8 @@ class ColorContrastTest {
     fun `所有文字底色组合对比度不低于 4-5`() {
         val failures = mutableListOf<String>()
         for ((schemeName, scheme, pyx) in listOf(
-            Triple("浅色", LightColors, LightPyxColors),
-            Triple("深色", DarkColors, DarkPyxColors),
+            Triple("浅色", PyxLightColorScheme, LightPyxColors),
+            Triple("深色", PyxDarkColorScheme, DarkPyxColors),
         )) {
             for ((name, pair) in combos(scheme, pyx)) {
                 val (fg, bg) = pair

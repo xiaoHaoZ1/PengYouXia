@@ -78,6 +78,11 @@ kotlin {
     }
 }
 
+ksp {
+    // Room schema 导出到 app/schemas 并入库（版本演进审计）
+    arg("room.schemaLocation", projectDir.path + "/schemas")
+}
+
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:designsystem"))
@@ -90,12 +95,19 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.androidx.room.compiler)
 
     debugImplementation(libs.compose.ui.test.manifest)
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.room.testing)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.junit.rule)
