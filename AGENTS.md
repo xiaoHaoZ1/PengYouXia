@@ -1,9 +1,8 @@
 # 朋友侠（PengYouXia）— 开发约定
 
-朋友侠开发仓库 xiaoHaoZ1/PengYouXia，2026-10-25 克隆时远端为空仓库（无任何提交），
-模块结构、构建任务待代码落地后补充进本文档。开发约定与守护侠一致。
+朋友侠开发仓库 xiaoHaoZ1/PengYouXia。开发约定与守护侠一致。
 
-- 应用包名：`com.pengyouxia.app`（debug 加 `.debug`），应用名「朋友侠」。
+- 应用：`com.pengyouxia.app`（debug 加 `.debug`），应用名「朋友侠」。
 - 设计事实来源：`docs/PRODUCT.md`；实施任务说明：`docs/TASK_*.md`（任务说明与设计冲突时以任务说明为准）。
 - 开发方式：审查会话定设计、写任务说明、审查结果；实施模型按任务说明开工，
   每阶段跑完整验证、单独提交、不推送，最后按任务说明第 7 节格式汇报。
@@ -19,7 +18,7 @@
   - 已验证（2026-10-25）：platforms `android-36`；build-tools `35.0.0` / `36.1.0`；adb 1.0.41（37.0.1-15733141）
 - JDK：`D:\AndroidDev\jdk17\jdk-17.0.20.1+1`（Temurin 17.0.20.1，不在 PATH，构建前需 `set JAVA_HOME=...`）
 - Gradle：独立安装 `D:\AndroidDev\gradle\gradle-8.13`（2026-10-25 已验证可运行）；`D:\AndroidDev\gradle.zip` 为 wrapper 缓存修复备份；wrapper 版本随工程定
-- `local.properties`：工程落地后创建 `sdk.dir=D:/AndroidDev/sdk`（不入库）
+- `local.properties`：`sdk.dir=D\:/AndroidDev/sdk`（冒号需转义，见踩坑速查；不入库）
 - 代理（V2rayN）：HTTP `127.0.0.1:10819`，SOCKS `127.0.0.1:10818`；GitHub 直连不通，仓库已设 local `http(s).proxy`
   - 代理由远端节点转发，隧道建立可能需 ~10 秒：`curl`/`git` 的 `--connect-timeout` 别设太短，否则误判为不通
 - 终端是 Git Bash：调 `cmd.exe` 须用 `//c`（`/c` 会被 MSYS 转成 `C:\`）
@@ -34,25 +33,38 @@
 
 ### 电脑 A 踩坑速查
 
-- `.properties` 文件（如 `local.properties`）单反斜杠是转义符会被吞掉：`sdk.dir=D:\AndroidDev\sdk` 被解析成 `D:AndroidDevsdk`，AGP 报「文件名、目录名或卷标语法不正确」。写 `sdk.dir=D:/AndroidDev/sdk`（正斜杠免转义）或 `D:\\AndroidDev\\sdk`。
+- `.properties` 文件（如 `local.properties`）单反斜杠是转义符会被吞掉：`sdk.dir=D:\AndroidDev\sdk` 被解析成 `D:AndroidDevsdk`，AGP 报「文件名、目录名或卷标语法不正确」。写 `sdk.dir=D\:/AndroidDev/sdk`。`D:/AndroidDev/sdk`（冒号未转义）构建能过，但 lint 报 `PropertyEscape` error。
+- 资源目录改名（如 `mipmap-anydpi-v26` → `mipmap-anydpi`）后 `mergeDebugResources` 可能命中旧的构建缓存产物，新目录资源丢失、报 `resource mipmap/ic_launcher not found`，`clean` 也无效：改名后跑一次加 `--no-build-cache` 的构建即可。
+- lint 固定有 `NewerVersionAvailable` warning（kotlin / hilt / roborazzi 有新版）：依赖版本必须与家人侠一致，不升级、也不用 baseline 压掉。
 - Git Bash 里 `cmd.exe /c` 的 `/c` 被 MSYS 转成 `C:\`，命令静默不执行（只见 cmd 横幅）。必须写 `cmd.exe //c`。
 - Gradle wrapper 缓存损坏报 `Cannot find JAR 'kotlin-compiler-embeddable-...'`：删 `%USERPROFILE%\.gradle\wrapper\dists\gradle-8.13-bin\<hash>\` 下损坏的 `gradle-8.13/`，把 `D:\AndroidDev\gradle.zip` 解压进去，再 `touch gradle-8.13-bin.zip.ok`。
 - `adb`、`java` 不在 PATH：adb 用 `D:\AndroidDev\sdk\platform-tools\adb.exe`；构建命令前缀 `set JAVA_HOME=D:\AndroidDev\jdk17\jdk-17.0.20.1+1&&`（cmd 里 `set X=Y&&` 的 `&&` 前不能留空格，否则值会带尾部空格）。
 
 ## 模块结构
 
-待代码落地后补充（参考守护侠：`:<app模块>` 只依赖 `:feature:*` 与 `:core:designsystem`）。
+- `:app` — 应用模块（Compose + Hilt + Navigation Compose），包 `com.pengyouxia.app`；依赖 `:core:model`、`:core:designsystem`。
+  内部按包划分：`navigation`（`AppNavHost`，底部三 tab）、`ui/friends`、`ui/exchanges`、`ui/mine`；`data` / `domain` / `reminder` 随后续批次加入。
+- `:core:model` — 纯 Kotlin/JVM 库（不依赖 Android），领域模型与纯规则，包 `com.pengyouxia.core.model`。枚举名会写进数据库与备份，不得改名。
+- `:core:designsystem` — Android 库，主题 token（`.theme`：`PyxTheme`、`PyxColors`/`LocalPyxColors`）与通用组件（`PageHeader`、`PyxCard`、`SectionHeader`、`EmptyState`、`DateTile`、`CountdownBadge`、`FriendAvatar`），包 `com.pengyouxia.core.designsystem`；不依赖数据层与业务代码。界面颜色一律取 token，不硬编码。初始自守护侠复制，与之各自演进。
 
 ## 构建 / 测试
 
-工程未落地，以下为与守护侠一致的通用约定：
+Gradle 根目录就是仓库根目录。完整验证任务：
 
-- Gradle 根目录预期为仓库根目录。完整验证任务（单测 + lint + assembleDebug + assembleRelease）待模块确定后在此列出。
+```
+:core:model:test :app:testDebugUnitTest :app:lintDebug :app:assembleDebug :app:assembleRelease
+```
+
 - 电脑 A（Git Bash）：`cmd.exe //c "cd /d D:\AIProject\PengYouXia && set JAVA_HOME=D:\AndroidDev\jdk17\jdk-17.0.20.1+1&& gradlew.bat <任务>"`
 - `local.properties` 的 `sdk.dir` 指向本机 Android SDK（不入库）。
+- 单元测试：`:app` 用 Robolectric（`@Config(sdk = [34])`），`:core:model` 为纯 JUnit。
 - `--tests` 模式经 `cmd.exe` 时不要加引号。
-- APK 输出：`<app模块>/build/outputs/apk/`。
-- 安装到设备：`adb.exe -s <序列号> install -r <apk路径>`；小米/HyperOS 需开「USB 安装」。
+- 已知偶发：lint 在 `lintAnalyze*` 阶段出现 Kotlin 分析器内部崩溃（`KotlinIllegalArgumentExceptionWithAttachments`）时单独重跑即可。
+- Lint 报告：`app/build/reports/lint-results-debug.html`，要求 0 error。
+- 截图测试（Roborazzi record 模式）随 `:app:testDebugUnitTest` 一起运行，产物 `app/build/outputs/roborazzi/m0_*.png`（三个 tab × 浅/深 + 组件样例页 浅/深）；组件样例页只在测试源码 `app/src/test/.../screenshots/ComponentGallery.kt`。
+- 清单权限由 `ManifestPermissionsTest` 守护：只允许白名单内权限（目前仅 androidx.core 注入的 `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`），以后加权限须同步白名单。
+- APK 输出：`app/build/outputs/apk/debug/app-debug.apk`、`app/build/outputs/apk/release/app-release-unsigned.apk`（有签名配置时为 `app-release.apk`）。
+- 安装到设备：`D:\AndroidDev\sdk\platform-tools\adb.exe -s <序列号> install -r app/build/outputs/apk/debug/app-debug.apk`；小米/HyperOS 需开「USB 安装」。
 
 ## 测试分工（项目规则）
 
