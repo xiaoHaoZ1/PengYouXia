@@ -51,7 +51,7 @@
 从上到下：
 
 1. 页头「朋友」，右侧「+」→ 添加朋友。
-2. 搜索框（占位文字「搜名字、备忘、礼物…」）。有输入时下方整体换成搜索结果。
+2. 搜索框（占位文字「搜名字、备忘、礼物…」；M3 接入往来之前为「搜名字、昵称、备忘」）。有输入时下方整体换成搜索结果。
 3. **近期生日**（30 天内，含今天；没有就整块不显示）：横向滑动小卡，每张卡
    - 名字
    - 「今天」/「明天」/「N 天后」（今天用强调色）
@@ -130,7 +130,6 @@ ID 一律 UUID 字符串；时间戳为毫秒；日期存 `epochDay`（Long）�
 | `id` | PK |
 | `name` | 非空 |
 | `nickname` | 可空 |
-| `sort_key` | 拼音排序键（名字全拼，小写），写入时生成 |
 | `met_note` | 怎么认识的，可空 |
 | `birthday_calendar` | `SOLAR` / `LUNAR`，可空（空 = 没填生日） |
 | `birthday_year` | 可空 |
@@ -176,7 +175,10 @@ ID 一律 UUID 字符串；时间戳为毫秒；日期存 `epochDay`（Long）�
 
 ## 8. 排序与搜索
 
-- 朋友列表按 `sort_key`（拼音）排序；拼音由 `android.icu.text.Transliterator`（`Han-Latin; Latin-ASCII`）生成。
+- 排序与拼音都在运行时计算，**不入库**（换设备、系统升级后结果随之更新，备份里也不带派生数据）：
+  - 排序：`java.text.Collator.getInstance(Locale.CHINA)` 按名字排序（全部系统版本可用）。
+  - 拼音：沿用家人侠 `domain/pinyin/PinyinIndex.kt`（`android.icu.text.Transliterator`，**API 29+**，优先 `Han-Latin/Names`）。
+  - API 26–28 没有拼音能力：列表不显示字母分组标题（仍按 Collator 排序），搜索只做文字子串匹配。
 - 搜索在内存中对全部朋友做匹配即可（个人数据量小），不引入 FTS。
 
 ## 9. 备份
@@ -237,8 +239,8 @@ ID 一律 UUID 字符串；时间戳为毫秒；日期存 `epochDay`（Long）�
 
 | 批次 | 内容 | 任务说明 |
 |---|---|---|
-| M0 | 工程骨架：Gradle、三个模块、主题、三个 tab 空页面、验证任务跑通 | `docs/TASK_M0_SKELETON.md`（已完成）、返工 `docs/TASK_M0_FIX.md` |
-| M1 | 朋友档案 + 备忘 + 搜索 + debug 演示数据 | 待 M0 审查后编写 |
+| M0 | 工程骨架：Gradle、三个模块、主题、三个 tab 空页面、验证任务跑通 | `docs/TASK_M0_SKELETON.md`、返工 `docs/TASK_M0_FIX.md`（2026-10-25 审查通过） |
+| M1 | 朋友档案 + 备忘 + 搜索 + debug 演示数据 | `docs/TASK_M1_FRIENDS_MEMOS.md` |
 | M2 | 生日（含农历）+ 近期生日 + 提醒 | 待编写 |
 | M3 | 人情往来 + 汇总 + 人情 tab | 待编写 |
 | M4 | 备份导出与恢复 | 待编写 |
