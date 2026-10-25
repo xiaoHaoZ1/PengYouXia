@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
@@ -18,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.pengyouxia.core.designsystem.theme.LocalPyxColors
 
 /**
- * 页头：与背景同色的平底，标题绘制在状态栏之下（内部 statusBarsPadding）。
- * [actions] 放标题右侧的操作（如「+」按钮）。
+ * 页头：与背景同色的平底，标题行固定 [PyxDimens.pageHeaderHeight] 高
+ * （不含状态栏，内部 statusBarsPadding），标题垂直居中——
+ * 有无 [actions] 标题位置完全一致。
+ * [actions] 放标题右侧的操作（如「+」IconButton）。
  */
 @Composable
 fun PageHeader(
@@ -35,7 +39,9 @@ fun PageHeader(
         Row(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(start = 20.dp, end = 8.dp, top = 12.dp, bottom = 8.dp),
+                .fillMaxWidth()
+                .height(PyxDimens.pageHeaderHeight)
+                .padding(start = PyxDimens.pageHorizontal),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -43,7 +49,9 @@ fun PageHeader(
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.weight(1f).semantics { heading() }
             )
-            actions()
+            // 图标右缘对齐 16dp 内容线：IconButton 内缩 12dp + Add 字形左右各留
+            // 5dp（24dp 视口内路径占 x=5..19），12+5−1=16，故 actions 整体右移 1dp。
+            Row(Modifier.offset(x = 1.dp)) { actions() }
         }
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.pengyouxia.app.BuildConfig
 import com.pengyouxia.app.ui.rememberComingSoon
 import com.pengyouxia.core.designsystem.PageHeader
+import com.pengyouxia.core.designsystem.PyxDimens
 import com.pengyouxia.core.designsystem.PyxCard
 import com.pengyouxia.core.designsystem.SectionHeader
 import com.pengyouxia.core.designsystem.theme.LocalPyxColors
@@ -39,7 +40,7 @@ fun MineScreen() {
             Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = PyxDimens.pageHorizontal)
         ) {
             SectionHeader("生日提醒")
             PyxCard(contentPadding = PaddingValues(0.dp)) {

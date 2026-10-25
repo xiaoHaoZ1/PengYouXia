@@ -55,7 +55,7 @@ fun CountdownBadge(days: Int) {
         1 -> "明天" to false
         else -> days.toString() + "天后" to false
     }
-    val (bg, fg) = if (today) pyx.accent to pyx.onAccent
+    val (bg, fg) = if (today) pyx.accentStrong to pyx.onAccentStrong
     else MaterialTheme.colorScheme.primaryContainer to MaterialTheme.colorScheme.onPrimaryContainer
     Surface(color = bg, shape = MaterialTheme.shapes.small) {
         Text(

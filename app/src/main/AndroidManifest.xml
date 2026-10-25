@@ -2,10 +2,12 @@
 <!-- 朋友侠默认不联网、不需要任何系统权限，此处有意不声明 uses-permission -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 资料只在本机，allowBackup=false 避免进入系统云备份 -->
+    <!-- 备份规则：云备份全部排除（资料不上云）；Android 12+ 换机直连迁移保留全部数据；
+         Android 11 及以下规则无法区分云备份与迁移，一律排除；
+         应用内「导出备份」仍是唯一可靠的换机方式 -->
     <application
         android:name=".PengYouXiaApp"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/full_backup_content"
         android:icon="@mipmap/ic_launcher"

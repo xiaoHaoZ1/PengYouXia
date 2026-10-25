@@ -12,13 +12,15 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-private val LightColors = lightColorScheme(
+/** 浅色方案。供 [PyxTheme] 与对比度测试读取。 */
+val LightColors = lightColorScheme(
     primary = PyxPrimaryLight,
     onPrimary = Color.White,
     primaryContainer = PyxPrimaryContainerLight,
     onPrimaryContainer = PyxOnPrimaryContainerLight,
-    secondary = PyxAccentLight,
-    onSecondary = Color.White,
+    // secondary 映射到 accentStrong：Material 组件默认用 secondary 时文字对比度也达标
+    secondary = PyxAccentStrongLight,
+    onSecondary = PyxOnAccentStrongLight,
     secondaryContainer = PyxAccentContainerLight,
     onSecondaryContainer = PyxOnAccentContainerLight,
     tertiary = PyxPrimaryLight,
@@ -45,13 +47,14 @@ private val LightColors = lightColorScheme(
     surfaceTint = PyxPrimaryLight
 )
 
-private val DarkColors = darkColorScheme(
+/** 深色方案。供 [PyxTheme] 与对比度测试读取。 */
+val DarkColors = darkColorScheme(
     primary = PyxPrimaryDark,
     onPrimary = PyxOnPrimaryDark,
     primaryContainer = PyxPrimaryContainerDark,
     onPrimaryContainer = PyxOnPrimaryContainerDark,
-    secondary = PyxAccentDark,
-    onSecondary = PyxOnAccentDark,
+    secondary = PyxAccentStrongDark,
+    onSecondary = PyxOnAccentStrongDark,
     secondaryContainer = PyxAccentContainerDark,
     onSecondaryContainer = PyxOnAccentContainerDark,
     tertiary = PyxPrimaryDark,
@@ -88,13 +91,15 @@ private val AppShapes = Shapes(
 
 /** 品牌扩展色（随亮暗切换）。 */
 data class PyxColors(
-    /** 强调色（暖橙），对应 colorScheme.secondary。 */
+    /** 强调色（暖橙）：只做装饰（图标、描边、点缀），不得作为小字颜色或白字的底色。 */
     val accent: Color,
-    /** 强调色上的文字色，对应 colorScheme.onSecondary。 */
-    val onAccent: Color,
+    /** 强调色高对比变体：用于文字与实心徽章底，对应 colorScheme.secondary。 */
+    val accentStrong: Color,
+    /** accentStrong 上的文字色，对应 colorScheme.onSecondary。 */
+    val onAccentStrong: Color,
     /** 强调色浅底，对应 colorScheme.secondaryContainer。 */
     val accentSoft: Color,
-    /** 人情「我给」用色（= accent）。 */
+    /** 人情「我给」用色（= accentStrong）。 */
     val give: Color,
     /** 人情「他给」用色（= primary）。 */
     val receive: Color,
@@ -106,9 +111,10 @@ data class PyxColors(
 
 val LightPyxColors = PyxColors(
     accent = PyxAccentLight,
-    onAccent = Color.White,
+    accentStrong = PyxAccentStrongLight,
+    onAccentStrong = PyxOnAccentStrongLight,
     accentSoft = PyxAccentContainerLight,
-    give = PyxAccentLight,
+    give = PyxAccentStrongLight,
     receive = PyxPrimaryLight,
     pageHeaderBackground = PyxBackgroundLight,
     cardBorder = PyxOutlineVariantLight,
@@ -116,9 +122,10 @@ val LightPyxColors = PyxColors(
 
 val DarkPyxColors = PyxColors(
     accent = PyxAccentDark,
-    onAccent = PyxOnAccentDark,
+    accentStrong = PyxAccentStrongDark,
+    onAccentStrong = PyxOnAccentStrongDark,
     accentSoft = PyxAccentContainerDark,
-    give = PyxAccentDark,
+    give = PyxAccentStrongDark,
     receive = PyxPrimaryDark,
     pageHeaderBackground = PyxBackgroundDark,
     cardBorder = PyxOutlineVariantDark,

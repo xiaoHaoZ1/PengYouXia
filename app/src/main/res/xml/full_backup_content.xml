@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android 12 之前的全量备份规则：排除全部数据，与 allowBackup=false 同义 -->
+<!-- Android 11 及以下使用的完整备份规则：所有数据域均排除，资料不参与系统备份
+     （此版本段的备份只进云端，与「资料不上云」一致） -->
 <full-backup-content>
     <exclude domain="root" path="." />
+    <exclude domain="file" path="." />
+    <exclude domain="database" path="." />
+    <exclude domain="sharedpref" path="." />
+    <exclude domain="external" path="." />
+    <!-- 设备加密存储区同样排除 -->
+    <exclude domain="device_root" path="." />
+    <exclude domain="device_file" path="." />
+    <exclude domain="device_database" path="." />
+    <exclude domain="device_sharedpref" path="." />
 </full-backup-content>

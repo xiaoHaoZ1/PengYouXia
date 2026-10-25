@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android 12+ 的数据提取规则：排除全部数据，保持与 allowBackup=false 一致（资料只在本机） -->
+<!-- Android 12+ 数据提取规则：
+     云备份排除全部数据域（含设备加密存储区），资料不上云；
+     设备间直连迁移不排除任何内容（换机时资料可整机带走，
+     但仍建议用应用内「导出备份」作为可靠换机方式） -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="root" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="external" path="." />
+        <exclude domain="device_root" path="." />
+        <exclude domain="device_file" path="." />
+        <exclude domain="device_database" path="." />
+        <exclude domain="device_sharedpref" path="." />
     </cloud-backup>
-    <device-transfer>
-        <exclude domain="root" path="." />
-    </device-transfer>
+    <device-transfer />
 </data-extraction-rules>

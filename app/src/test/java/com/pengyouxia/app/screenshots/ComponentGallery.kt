@@ -37,6 +37,7 @@ import com.pengyouxia.core.designsystem.EmptyState
 import com.pengyouxia.core.designsystem.FriendAvatar
 import com.pengyouxia.core.designsystem.PageHeader
 import com.pengyouxia.core.designsystem.PyxCard
+import com.pengyouxia.core.designsystem.PyxDimens
 import com.pengyouxia.core.designsystem.SectionHeader
 import com.pengyouxia.core.designsystem.theme.LocalPyxColors
 
@@ -63,7 +64,7 @@ fun ComponentGallery() {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
         }
-        Column(Modifier.padding(horizontal = 16.dp)) {
+        Column(Modifier.padding(horizontal = PyxDimens.pageHorizontal)) {
             SectionHeader("卡片")
             PyxCard(Modifier.fillMaxWidth()) {
                 Text("这是一张 PyxCard，白底、发丝描边、无阴影。")
@@ -100,10 +101,24 @@ fun ComponentGallery() {
             }
 
             SectionHeader("人情用色")
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("我给 ¥800", style = MaterialTheme.typography.titleMedium, color = pyx.give)
                 Spacer(Modifier.width(24.dp))
                 Text("他给 ¥600", style = MaterialTheme.typography.titleMedium, color = pyx.receive)
+                Spacer(Modifier.width(24.dp))
+                // accent 只做装饰：色块示例，不用它写字
+                Box(
+                    Modifier
+                        .size(40.dp, 16.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(pyx.accent)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    "accent · 仅装饰",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
 
             SectionHeader("应用图标")
