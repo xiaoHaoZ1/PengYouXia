@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 白色描边手绘「友」字：一横、一撇、下方「又」（横折 + 捺），笔画落在中心安全区内 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 一横 -->
+    <path
+        android:pathData="M36,35 L72,32"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <!-- 一撇：从横中上方斜向左下 -->
+    <path
+        android:pathData="M57,24 C55,38 49,49 39,59"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <!-- 又的横折：横向右再折向左下 -->
+    <path
+        android:pathData="M45,54 L66,51 C63,60 57,68 50,75"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <!-- 捺：从交叉点向右下 -->
+    <path
+        android:pathData="M56,53 C61,62 67,69 74,75"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

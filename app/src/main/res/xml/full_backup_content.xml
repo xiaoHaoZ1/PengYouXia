@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12 之前的全量备份规则：排除全部数据，与 allowBackup=false 同义 -->
+<full-backup-content>
+    <exclude domain="root" path="." />
+</full-backup-content>
