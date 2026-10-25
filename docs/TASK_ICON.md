@@ -1,122 +1,119 @@
 # 任务：朋友侠应用图标（双熊猫侠客）
 
-> 分两步：**第 1 节交给出图模型**生成候选图；用户挑定后经审查方确认，**第 3 节交给实施模型**接入工程。
-> 在 `docs/TASK_M0_FIX.md` 完成之后进行。
+> 流程：**ChatGPT 出图**（第 1 节）→ 用户挑选 → **ChatGPT 整理成正式文件**（第 2 节）→ **审查方验证**（第 3 节）→ **实施模型接入工程**（第 4 节）。
+> 风格要求：**侠客风，不要可爱风**。接入工程在 `docs/TASK_M1_FRIENDS_MEMOS.md` 完成后进行，避免与 M1 的提交交叉。
 
 ---
 
 ## 0. 侠系列图标规范（从家人侠、守护侠现有图标实测）
 
-参考图（出图时作为风格参考图一起上传）：
-- 家人侠：`D:\AIProject\JiaRenXia\apps\android\app\src\main\res\drawable-nodpi\ic_launcher_foreground.png`（侠客抱着一颗心）
-- 守护侠：`D:\AIProject\ShouHuXia-dev\guardianapp\src\main\res\drawable-nodpi\ic_launcher_foreground.png`（同一侠客抱着盾牌）
+参考图（出图时上传给 ChatGPT 作为**配色与画法**参考）：
+- 家人侠：`D:\AIProject\JiaRenXia\apps\android\app\src\main\res\drawable-nodpi\ic_launcher_foreground.png`
+- 守护侠：`D:\AIProject\ShouHuXia-dev\guardianapp\src\main\res\drawable-nodpi\ic_launcher_foreground.png`
 
-共同风格：
-- 主角是一个圆润的小侠客：宽檐**斗笠**、飘起的**披风**，只露出奶白色的脸和两个圆点眼睛。
-- 扁平矢量，大块圆润形状，**没有描边、没有渐变、没有纹理、没有阴影**。
-- 只用三种颜色：
+要沿用的：斗笠 + 披风的侠客装束；扁平矢量、大色块、**无描边、无渐变、无纹理、无阴影**；严格三色 + 明黄背景。
+**不沿用的**：参考图偏圆润 Q 版，朋友侠要更**硬朗、挺拔、有江湖气**。
 
 | 用途 | 颜色 |
 |---|---|
-| 主体（斗笠、披风、身体） | 深青 `#0C4247` |
-| 脸、怀里的物件 | 奶白 `#FBF1DC` |
-| 细的点缀线（斗笠边、披风边） | 金黄 `#FBC146` |
+| 主体（熊猫深色毛、斗笠、披风） | 深青 `#0C4247` |
+| 熊猫白毛、脸 | 奶白 `#FBF1DC` |
+| 细点缀线（斗笠边、腰带、披风边） | 金黄 `#FBC146` |
 | 图标背景（自适应图标背景层） | 明黄 `#F9C147` |
 
-- 前景图 432×432 透明 PNG，人物外框约占画布中间 256×256（家人侠实测外框为 x 88–344、y 96–336），落在自适应图标安全区内。
-- 另有一张单色图（monochrome）：同轮廓纯白、透明底，内部细节做成镂空，用于系统主题图标。
+成品规格（家人侠实测）：前景 432×432 透明 PNG，人物外框约 256×240 居中（x 88–344、y 96–336）；
+单色图同尺寸，深青与金黄区域为纯白、奶白区域为透明镂空。
 
-## 1. 出图提示词（交给出图模型）
-
-**画面构思**：两只熊猫侠客肩并肩，内侧手臂互相搂着对方肩膀，迈着同样的步子朝前走，像一对结拜兄弟。
-沿用侠系列的斗笠和披风，熊猫的黑色部分改用系列深青色。
-
-### 1.1 英文提示词（Midjourney / DALL·E / GPT-Image / Flux 等）
+## 1. 第一步：出图（把下面整段发给 ChatGPT，并上传两张参考图）
 
 ```
-Flat vector app icon mascot, in exactly the same style as the attached reference icons
-(a small round wandering-swordsman hero in a wide conical bamboo hat and a flowing cloak,
-smooth rounded shapes, no outlines, strict three-color palette).
+我在做一个安卓应用「朋友侠」的启动图标，它属于"侠"系列（另两个是「家人侠」「守护侠」，我上传的两张图就是它们的图标）。
+请参考这两张图的【配色和画法】（扁平矢量、大色块、无描边、无渐变、无阴影、深青/奶白/金黄三色），
+但人物风格【不要可爱、不要Q版】，要有武侠片里侠客的英气和江湖感。
 
-Subject: two chubby panda heroes standing shoulder to shoulder, walking forward toward the viewer
-in step, each with its inner arm wrapped around the other's shoulders, like two sworn brothers.
-Both wear the same wide conical bamboo hat as the reference hero, tilted slightly outward,
-with a thin gold rim line, and short cloaks with thin gold edge lines.
-Panda faces: cream face, dark teardrop eye patches, small round dark dot eyes,
-calm friendly expression, round ears just visible under the hat brims.
-Bodies overlap a little in the middle so the pair reads as one compact rounded silhouette.
+画面：两只熊猫侠客，结拜兄弟，肩并肩朝镜头方向大步走来，内侧的手臂互相搂着对方的肩膀。
+- 体型：成年侠客的比例，身形挺拔、肩膀宽厚，头身比约 1:2，不要圆滚滚的婴儿比例。两只体型一致、地位平等。
+- 斗笠：都戴宽檐斗笠，压得较低，帽檐遮住眉毛，帽檐有一条细金线。
+- 眼神：眼睛是细长的、坚定的，平视前方；嘴角平直。不要大圆眼、不要眼睛高光、不要腮红、不要笑脸。
+- 熊猫特征：奶白色脸，深色眼圈，耳朵从帽檐下露出一点，一看就是熊猫。
+- 衣着：短披风被风吹向外侧，腰间一条细金线腰带。披风和身体的转折要硬朗利落，像剪影徽章，而不是软乎乎的泡泡形状。
+- 不拿武器、不画竹子、不画地面和背景景物。
+- 两只熊猫在中间略微重叠，整体是一个紧凑、厚重的轮廓。
 
-Colors only: dark teal #0C4247 for panda dark fur, hats and cloaks; cream #FBF1DC for white fur,
-faces and bellies; gold #FBC146 for thin accent lines only. Plain solid background #F9C147.
+颜色只能用：深青 #0C4247（熊猫深色毛、斗笠、披风）、奶白 #FBF1DC（熊猫白毛、脸）、金黄 #FBC146（只做细线点缀）、
+背景纯色明黄 #F9C147。不要纯黑、不要红色、不要其他颜色。
 
-Composition: centered, nearly symmetrical, the whole pair fits inside a centered circle
-about 60% of the canvas width, generous empty margin. Bold simple shapes that stay readable at 48 px.
-Square 1:1, 1024x1024.
+构图：正方形 1024×1024，人物居中，整体放在画面中央约 60% 宽的范围内，四周大量留白。缩小到 48 像素还要能认出"两只戴斗笠的熊猫搂着肩"。
+
+请分别生成以下三种构图，每种 2 张，一共 6 张，每张单独一张图：
+A. 正面朝镜头并肩走来（主方案）
+B. 3/4 侧面，一起朝画面右前方迈步，披风向后飘，动感更强
+C. 两只熊猫共戴一顶加宽的大斗笠，轮廓更简洁
+
+生成后请按 pyx_icon_A_1.png、pyx_icon_A_2.png、pyx_icon_B_1.png …… 的名字提供下载。
 ```
 
-负面提示词（支持时填写）：
+**保存位置**：把 6 张图下载到 `D:\AIProject\PengYouXia\assets\brand\candidates\`，文件名保持 `pyx_icon_<构图>_<序号>.png`。
+该目录不入库（已在 `.gitignore`）。第一轮不满意时，在同一对话里让 ChatGPT 按意见重出，新图继续编号（如 `pyx_icon_A_3.png`）。
+
+**挑选标准**（用户先挑，审查方复核）：
+1. 缩到 48×48 能认出：两只、熊猫、斗笠、搂肩。
+2. 有侠客的英气：不圆滚滚、不卖萌、眼神坚定。
+3. 放在家人侠、守护侠旁边，一眼看出是同一系列（配色、画法一致）。
+4. 两只大小一致、地位平等。
+5. 只有三色 + 背景色，没有渐变、描边、杂色、文字。
+
+## 2. 第二步：整理成正式文件（选定后发给 ChatGPT，并上传选中的那张图）
 
 ```
-photorealistic, 3D render, gradient, glossy, outline stroke, text, letters, watermark,
-scenery, ground, cast shadow, more than two characters, weapons, swords, bamboo,
-red, pink, black, extra colors, tiny details, cropped edges
+我选定了这张图。请用你的 Python 工具把它整理成安卓自适应图标需要的文件，严格按以下规格，处理完提供下载：
+
+1. icon_master.png：1024×1024，就是这张原图，背景统一成纯色 #F9C147。
+2. ic_launcher_foreground.png：432×432，RGBA 透明背景，只保留人物。
+   - 去掉背景；把人物所有像素的颜色归并到三种颜色中最接近的一种：#0C4247、#FBF1DC、#FBC146（不能有其他颜色）。
+     为了边缘不出锯齿，请在 2 倍尺寸（864×864）上完成抠图和归色，再用 LANCZOS 缩小到 432×432。
+   - 人物整体等比缩放，外框最长边 256 像素左右（250–264），在画布中居中。
+3. ic_launcher_monochrome.png：432×432，RGBA 透明背景，与上一张同样的轮廓和位置；
+   深青和金黄区域改为纯白 #FFFFFF，奶白区域改为透明（镂空），所以眼睛、眼圈会以白色出现在镂空的脸上。只能有白色和透明。
+4. logo.png：512×512，背景 #F9C147，圆角正方形（圆角半径 112 像素，圆角外透明），人物居中，外框最长边约 300 像素。
+5. preview_48.png：把 ic_launcher_foreground.png 叠在 #F9C147 圆形底上，缩小到 48×48，再放大 4 倍（最近邻）到 192×192，供人眼检查小尺寸效果。
+
+处理完后告诉我：每张图的实际尺寸、ic_launcher_foreground.png 里人物外框的像素坐标、三种颜色各自的像素占比。
 ```
 
-### 1.2 中文提示词（通义万相 / 即梦 / 豆包 / 文心一格等）
+**保存位置**：5 个文件下载到 `D:\AIProject\PengYouXia\assets\brand\`，文件名保持不变（`preview_48.png` 只供检查，验证通过后删除）。
 
-```
-扁平矢量风格的手机应用图标吉祥物，风格与上传的两张参考图完全一致：圆润的小侠客，戴宽檐斗笠、披飘逸披风，
-大块圆润形状，无描边，严格三色。
+## 3. 第三步：审查方验证（完成第 2 步后告诉审查会话"图标文件已放好"）
 
-画面：两只胖乎乎的熊猫侠客肩并肩，内侧的手臂互相搂着对方的肩膀，迈着同样的步子朝镜头走来，像一对结拜兄弟。
-两只熊猫都戴着和参考图一样的宽檐斗笠，斗笠微微向外倾斜，帽檐有一条细金线；披着短披风，披风边有细金线。
-熊猫的脸是奶白色，深色水滴形眼圈，小圆点眼睛，神情平和友善，圆耳朵从帽檐下露出一点。
-两个身体在中间略有重叠，整体是一个紧凑圆润的轮廓。
+审查方逐项检查并给出结论，不通过的会写明原因与修改意见：
 
-只用这几种颜色：深青色 #0C4247（熊猫黑毛、斗笠、披风），奶白色 #FBF1DC（熊猫白毛、脸、肚子），
-金黄色 #FBC146（只用于细点缀线），纯色背景 #F9C147。
-
-构图：居中，接近左右对称，两只熊猫整体放在画面中央约 60% 宽的圆形范围内，四周大量留白，
-缩小到 48 像素仍然清晰可辨。正方形 1:1，1024×1024。
-
-不要：写实、3D、渐变、高光、描边、文字、水印、背景场景、地面、投影、第三个角色、武器、竹子、红色、粉色、纯黑色、琐碎细节、画面被裁切。
-```
-
-### 1.3 备选构图（第一轮效果不好时再试）
-
-- **B：3/4 侧面同向前行**：两只熊猫朝画面右前方迈步，前后略错开，外侧披风向后飘，动感更强，脸仍可见。
-- **C：只留一顶大斗笠**：两只熊猫共撑在一顶加宽的斗笠下（像共用一把伞），轮廓更简洁，小尺寸更易读。
-- **D：背影**：两兄弟搂肩背对镜头向远处走，斗笠与披风是主体。氛围最好，但看不到熊猫脸，辨识度最低，仅作参考。
-
-每种构图至少出 4 张候选。
-
-### 1.4 挑选标准（用户先挑，审查方复核）
-
-1. 缩到 48×48 像素看：能认出是**两只熊猫**、**戴斗笠**、**搂着肩**。
-2. 放在家人侠、守护侠图标旁边，一眼能看出是同一系列。
-3. 只有三种颜色加背景色，没有渐变、描边、杂色。
-4. 两只熊猫大小一致、地位平等（兄弟，不是一大一小）。
-5. 表情友善，不凶、不卖萌过度。
-
-## 2. 出图后的整理（出图模型或用户完成均可）
-
-选定的图交给审查方确认后，整理成以下文件（放在 `assets/brand/`，入库）：
-
-| 文件 | 规格 |
+| 项 | 标准 |
 |---|---|
-| `icon_master.png` | 选定原图，1024×1024，带 `#F9C147` 背景 |
-| `ic_launcher_foreground.png` | 432×432 透明底，只有人物；人物外框约 256×256 居中（与家人侠一致） |
-| `ic_launcher_monochrome.png` | 432×432 透明底，同轮廓纯白 `#FFFFFF`，眼睛、眼圈、金线等内部细节做成镂空 |
-| `logo.png` | 512×512，带 `#F9C147` 背景、圆角正方形，用于以后的官网 / 分享 |
+| 尺寸 | master 1024²、foreground / monochrome 432²、logo 512² |
+| 透明 | foreground / monochrome 四角与背景全透明；logo 圆角外透明 |
+| 配色 | foreground 不透明像素 ≥ 97% 落在三色附近（每通道误差 ≤ 12），无其他色相 |
+| 外框 | foreground 人物外框最长边 250–264 像素且居中（偏差 ≤ 8 像素），不超出 66/108 安全区（中心 264×264） |
+| 单色 | monochrome 只有白色与透明，轮廓与 foreground 一致，脸部镂空 |
+| 小尺寸 | 48px 预览与家人侠、守护侠并排对比：能认出两只熊猫、斗笠、搂肩，系列感一致 |
+| 风格 | 侠客风：比例挺拔、眼神坚定、无腮红无大圆眼 |
 
-出图模型通常给不出精确的色值和透明底：需要抠图、把颜色统一校正到第 0 节的三色、去掉杂色和半透明毛边。
+## 4. 第四步：接入工程（交给实施模型）
 
-## 3. 接入工程（交给实施模型）
+给实施模型的提示词：
+
+```
+你在 D:\AIProject\PengYouXia 仓库工作（朋友侠，Android 应用）。
+请先读 AGENTS.md 和 docs/TASK_ICON.md，严格按第 4 节接入新图标（图标文件已在 assets/brand/，且已通过审查）。
+跑完整验证任务全部通过后一次提交（作者见 AGENTS.md），不要推送，不要用 adb 操作手机。完成后按第 4 节第 6 条汇报。
+```
+
+步骤：
 
 1. 把 `assets/brand/ic_launcher_foreground.png`、`ic_launcher_monochrome.png` 复制到 `app/src/main/res/drawable-nodpi/`
    （与家人侠、守护侠同一做法），删除现有矢量图 `app/src/main/res/drawable/ic_launcher_foreground.xml`。
 2. `mipmap-anydpi/ic_launcher.xml`、`ic_launcher_round.xml`：前景、单色层指向上面两张图；背景层用颜色资源 `ic_launcher_background = #F9C147`
-   （放 `values/colors.xml`，深色模式不另设）。
+   （`values/colors.xml`，深色模式不另设）。
 3. 组件样例页（测试源码 `ComponentGallery.kt`）的"应用图标"一节改为展示新图标：圆形、圆角方形两种遮罩各一个，外加 48dp 小尺寸一个。
-4. 跑完整验证任务全部通过（lint 0 error），重新生成 `m0_components_*.png`；一次提交，不推送。
-5. 汇报：提交哈希、截图路径、真机清单（装 debug 包 → 看桌面图标；系统开启"主题图标"后再看单色图标）。
+4. `assets/brand/` 下 `icon_master.png`、`ic_launcher_foreground.png`、`ic_launcher_monochrome.png`、`logo.png` 入库；`candidates/` 不入库。
+5. 跑完整验证任务全部通过（lint 0 error），重新生成组件样例截图；一次提交，不推送。
+6. 汇报：提交哈希、截图路径、真机清单（装 debug 包 → 看桌面图标；系统开启"主题图标"后再看单色图标）。

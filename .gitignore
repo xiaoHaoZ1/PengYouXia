@@ -13,3 +13,6 @@ captures/
 keystore.properties
 /*.apk
 .kotlin/
+# 图标候选图（出图过程产物，只入库选定后的正式文件）
+assets/brand/candidates/
+assets/brand/preview_48.png
